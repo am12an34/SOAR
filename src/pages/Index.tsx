@@ -200,9 +200,6 @@ const Index = () => {
                   EXAM PORTAL
                 </div>
               </Link>
-              <p className="mt-2 text-gray-600 max-w-md">
-                Official examination portal for ANARC - The Robotics Club of NIT Agartala
-              </p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
