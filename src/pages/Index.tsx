@@ -205,7 +205,7 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
+            <div className="hidden md:grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-3">Quick Links</h3>
                 <ul className="space-y-2">
