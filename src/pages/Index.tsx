@@ -190,7 +190,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-4 sm:px-6 lg:px-8 bg-gray-100">
+       <footer className="py-10 px-4 sm:px-6 lg:px-8 bg-gray-100">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
@@ -200,6 +200,9 @@ const Index = () => {
                   EXAM PORTAL
                 </div>
               </Link>
+              <p className="mt-2 text-gray-600 max-w-md">
+                Official examination portal for ANARC - The Robotics Club of NIT Agartala
+              </p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
