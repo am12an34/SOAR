@@ -11,12 +11,12 @@ const Exams = () => {
   const exams = [
     {
       id: 1,
-      title: "Robotics Basic",
-      description: "Fundamental concepts in robotics, sensors, and basic programming",
+      title: "SOAR 13.0  Test",
+      description: "Qualify for the next stage by showcasing your technical and club knowledge.",
       level: "Beginner",
-      date: "August 15, 2023",
-      time: "10:00 AM - 12:00 PM",
-      duration: "2 hours",
+      date: "March 22, 2025",
+      time: "12:30 PM - 1:30 PM",
+      duration: "1 hours",
       fee: "₹0",
       badge: "Popular"
     },
@@ -155,8 +155,8 @@ const Exams = () => {
                   </div>
                 </CardContent>
                 <CardFooter className="px-6 py-4 bg-gray-50 rounded-b-lg">
-                  <Link to="#" className="w-full">
-                    <Button className="w-full bg-anarc-blue hover:bg-anarc-blue/90" disabled={true}>
+                  <Link to={exam.id===1?'/register':'#'} className="w-full">
+                    <Button className="w-full bg-anarc-blue hover:bg-anarc-blue/90" disabled={exam.id===1?false:true}>
                       Register for Exam
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Button>
