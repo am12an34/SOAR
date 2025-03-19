@@ -21,11 +21,28 @@ const NavBar = () => {
   const { user, signOut } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [showNav, setShowNav] = useState(true);
   const handleSignOut = async () => {
     await signOut();
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+
+      if (scrollPosition >= pageHeight - 10) {
+        // Hide when at the bottom
+        setShowNav(false);
+      } else {
+        // Show when scrolling up from bottom
+        setShowNav(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
     <>
       {/* Top Navigation Bar (Desktop & Mobile) */}
@@ -57,47 +74,47 @@ const NavBar = () => {
 
           {/* User Dropdown */}
           <div className="flex items-center gap-4 relative">
-                    {user ? (
-                      <div className="relative">
-                        <button
-                          className="flex items-center text-white focus:outline-none"
-                          onClick={() => setDropdownOpen(!dropdownOpen)}
-                        >
-                          <User size={18} className="mr-2 text-white" />
-                          <ChevronDown size={18} className="ml-1" />
-                        </button>
-                        {dropdownOpen && (
-                          <div className="absolute right-0 mt-2 bg-white text-black shadow-md rounded-md w-40">
-                            <Link to="/profile" className="flex items-center px-4 py-2 hover:bg-gray-200">
-                              <User size={16} className="mr-2" /> Profile
-                            </Link>
-                            <Link to="/dashboard" className="flex items-center px-4 py-2 hover:bg-gray-200">
-                              <LayoutDashboard size={16} className="mr-2" /> Dashboard
-                            </Link>
-                            <button
-                              onClick={handleSignOut}
-                              className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-200"
-                            >
-                              <LogOut size={16} className="mr-2" /> Sign Out
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <>
-                        <Button asChild variant="ghost" className="text-white">
-                          <Link to="/login">SIGN IN</Link>
-                        </Button>
-                        <Button
-                          asChild
-                          variant="outline"
-                          className="text-anarc-blue border-white hover:bg-white hover:text-anarc-blue"
-                        >
-                          <Link to="/register">REGISTER</Link>
-                        </Button>
-                      </>
-                    )}
+            {user ? (
+              <div className="relative">
+                <button
+                  className="flex items-center text-white focus:outline-none"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                  <User size={18} className="mr-2 text-white" />
+                  <ChevronDown size={18} className="ml-1" />
+                </button>
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 bg-white text-black shadow-md rounded-md w-40">
+                    <Link to="/profile" className="flex items-center px-4 py-2 hover:bg-gray-200">
+                      <User size={16} className="mr-2" /> Profile
+                    </Link>
+                    <Link to="/dashboard" className="flex items-center px-4 py-2 hover:bg-gray-200">
+                      <LayoutDashboard size={16} className="mr-2" /> Dashboard
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-200"
+                    >
+                      <LogOut size={16} className="mr-2" /> Sign Out
+                    </button>
                   </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Button asChild variant="ghost" className="text-white">
+                  <Link to="/login">SIGN IN</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="text-anarc-blue border-white hover:bg-white hover:text-anarc-blue"
+                >
+                  <Link to="/register">REGISTER</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -111,7 +128,10 @@ const NavBar = () => {
       </nav>
 
       {/* Bottom Navigation Bar (Only on Mobile) */}
-      <div className="fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-around py-3 md:hidden">
+      <div
+        className={`fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-around py-3 md:hidden transition-transform duration-300 ${showNav ? "translate-y-0" : "translate-y-full"
+          }`}
+      >
         <NavItem to="/" icon={<Home size={24} />} label="Home" />
         <NavItem to="/exams" icon={<FileText size={24} />} label="Exams" />
         <NavItem to="/contact" icon={<Phone size={24} />} label="Contact" />
