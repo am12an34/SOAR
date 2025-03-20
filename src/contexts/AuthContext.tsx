@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       toast.error(error.message || "Error signing in");
     } finally {
       setIsLoading(false);
-      navigate("/");
+      navigate("/login");
     }
   };
 
