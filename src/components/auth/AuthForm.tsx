@@ -78,10 +78,10 @@ const AuthForm = ({ isRegister = false }: AuthFormProps) => {
       />
 
       <Tabs defaultValue="email" className="w-full" onValueChange={setAuthMethod} value={authMethod}>
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="email">Email</TabsTrigger>
           <TabsTrigger value="otp">Reset</TabsTrigger>
-          <TabsTrigger value="google">Google</TabsTrigger>
+
         </TabsList>
 
         <TabsContent value="email" className="mt-6">
@@ -92,9 +92,7 @@ const AuthForm = ({ isRegister = false }: AuthFormProps) => {
           <OtpAuth />
         </TabsContent>
 
-        <TabsContent value="google" className="mt-6">
-          <GoogleAuth />
-        </TabsContent>
+
       </Tabs>
     </div>
   );
