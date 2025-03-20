@@ -171,8 +171,8 @@ const Dashboard = () => {
       
       <div className="container mx-auto px-4 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-anarc-blue">Student Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {studentData.name}</p>
+          <h1 className="text-3xl font-bold text-anarc-blue">STUDENT DASHBOARD</h1>
+          <p className="text-gray-600">👋 Hi, {studentData.name}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -243,13 +243,14 @@ const Dashboard = () => {
                   <span className="text-gray-500">Venue:</span>
                   <span className="font-medium">{studentData.venue}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <span className="text-gray-500">Status:</span>
-                  <span className={`font-medium ${
-                    studentData.status === "Approved" ? "text-green-600" :
-                    studentData.status === "Rejected" ? "text-red-600" :
-                    "text-amber-600"
-                  }`}>
+                  <span
+                    className={`font-medium px-3 py-1 rounded-lg ${studentData.status === "Approved" ? "bg-green-100 text-green-600" :
+                        studentData.status === "Rejected" ? "bg-red-100 text-red-600" :
+                          "bg-amber-100 text-amber-600"
+                      }`}
+                  >
                     {studentData.status}
                   </span>
                 </div>
