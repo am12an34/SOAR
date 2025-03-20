@@ -136,6 +136,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             status: "Pending",
             admit_card_generated: false,
           });
+      navigate("/success");
+        
   
         if (regError) throw regError;
   
