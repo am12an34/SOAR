@@ -77,7 +77,7 @@ const Dashboard = () => {
           rollNumber: userMeta.roll_number || "No Roll Number",
           examType: parsedData.examType || "Unknown",
           examName: getExamName(parsedData.examType) || "No Exam",
-          examDate: "June 25, 2023", // Ideally fetched from backend
+          examDate: "March 22, 2025", // Ideally fetched from backend
           examTime: "12:30 PM - 1:30 PM", // Ideally fetched from backend
           venue: "Mentioned in Admit Card", // Ideally fetched from backend
           hasAdmitCard: registration?.status === "Approved",
