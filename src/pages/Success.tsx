@@ -12,7 +12,7 @@ const Success = () => {
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">Registration Successful!</h2>
                 <p className="text-gray-600 mb-6">
                     You have successfully registered for the <span className="font-semibold">SOAR13.O Examination</span>.  
-                    Kindly login to your account for admit card download!
+                    Kindly verify your email and then login!
                 </p>
                 <Button
                     className="bg-anarc-teal hover:bg-anarc-teal/90"
