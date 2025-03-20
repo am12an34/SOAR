@@ -103,7 +103,6 @@ const RegistrationForm = () => {
       });
       
       setIsSuccess(true);
-      navigate("/success");
     } catch (error) {
       console.error("Registration error:", error);
     } finally {
