@@ -15,7 +15,7 @@ const Exams = () => {
       description: "Qualify for the next stage by showcasing your technical and club knowledge.",
       level: "Beginner",
       date: "March 22, 2025",
-      time: "12:30 PM - 1:30 PM",
+      time: "12:00 PM - 1:00 PM",
       duration: "1 hours",
       fee: "₹0",
       badge: "Popular"
