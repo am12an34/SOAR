@@ -59,7 +59,7 @@ export const downloadAdmitCard = (studentData: StudentData) => {
   doc.text('Registration Number:', 20, yPos);
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
-  doc.text(`ANARC25${studentData.regNo.slice(0, 2).toUpperCase()}${studentData.regNo.slice(-2)}`, 75, yPos);
+  doc.text(`ANARC25${studentData.regNo.slice(0, 2).toUpperCase()}${studentData.regNo.slice(2, 5).toUpperCase()}${studentData.regNo.slice(-2)}`, 75, yPos);
 
   yPos += 8;
   doc.setFont('helvetica', 'normal');
