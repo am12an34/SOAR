@@ -54,7 +54,7 @@ export const downloadAdmitCard = (studentData: StudentData) => {
 
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
-  doc.text(`ANARC25${studentData.regNo.slice(0, 2).toUpperCase()}${studentData.regNo.slice(-2)}`, 75, 52);
+  doc.text(`ANARC25${studentData.regNo.slice(0, 2).toUpperCase()}${studentData.regNo.slice(2, 5).toUpperCase()}${studentData.regNo.slice(-2)}`, 75, 52);
 
   // Add Exam details
   doc.setFont('helvetica', 'normal');
