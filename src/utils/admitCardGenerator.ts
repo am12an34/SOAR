@@ -1,7 +1,6 @@
-
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-
+import logo from '../../public/assets/logo_black.png'
 type StudentData = {
   name: string;
   regNo: string;
@@ -17,10 +16,14 @@ type StudentData = {
 };
 
 export const downloadAdmitCard = (studentData: StudentData) => {
-  // Create a new PDF document
   const doc = new jsPDF();
 
-  // Set properties
+  // Draw a border around the entire page
+  doc.setDrawColor(0, 128, 128);
+  doc.setLineWidth(0.2);
+  doc.rect(10, 10, 190, 277);
+
+  // Set document properties
   doc.setProperties({
     title: `ANARC Exam Admit Card - ${studentData.name}`,
     subject: 'Examination Admit Card',
@@ -29,76 +32,74 @@ export const downloadAdmitCard = (studentData: StudentData) => {
     creator: 'ANARC Exam System'
   });
 
-  // Add a title
+  // Add logo at the top center
+ doc.addImage(logo, 'PNG', 92, 20, 20, 20); // Adjusted position and size
+
+  // Add a title below the logo
   doc.setFontSize(22);
   doc.setTextColor(0, 128, 128);
-  doc.text('ANARC ROBOTICS CLUB', 105, 20, { align: 'center' });
+  doc.text('ANARC ROBOTICS CLUB', 105, 55, { align: 'center' });
 
   doc.setFontSize(18);
   doc.setTextColor(0, 0, 0);
-  doc.text('NIT AGARTALA', 105, 28, { align: 'center' });
+  doc.text('NIT AGARTALA', 105, 63, { align: 'center' });
 
   doc.setFontSize(16);
-  doc.setTextColor(0, 0, 0);
-  doc.text('SOAR 13.O EXAMINATION ADMIT CARD', 105, 38, { align: 'center' });
+  doc.text('SOAR 13.O EXAMINATION ADMIT CARD', 105, 73, { align: 'center' });
 
-  // Add a line
+  // Add a line below the header
   doc.setDrawColor(0, 128, 128);
   doc.setLineWidth(0.5);
-  doc.line(20, 42, 190, 42);
+  doc.line(20, 78, 190, 78);
 
-  // Add registration details
+  // Registration details (Adjusted positions)
+  let yPos = 85;
   doc.setFontSize(10);
   doc.setTextColor(100, 100, 100);
-  doc.text('Registration Number:', 20, 52);
-
+  doc.text('Registration Number:', 20, yPos);
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
-  doc.text(`ANARC25${studentData.regNo.slice(0, 2).toUpperCase()}${studentData.regNo.slice(2, 5).toUpperCase()}${studentData.regNo.slice(-2)}`, 75, 52);
+  doc.text(`ANARC25${studentData.regNo.slice(0, 2).toUpperCase()}${studentData.regNo.slice(-2)}`, 75, yPos);
 
-  // Add Exam details
+  yPos += 8;
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
-  doc.text('Examination:', 20, 60);
-
+  doc.text('Examination:', 20, yPos);
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
-  doc.text(studentData.examName, 75, 60);
+  doc.text(studentData.examName, 75, yPos);
 
-  // Add date and time
+  yPos += 8;
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
-  doc.text('Date:', 20, 68);
-
+  doc.text('Date:', 20, yPos);
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
-  doc.text('22 March 2025', 75, 68);
+  doc.text(studentData.examDate, 75, yPos);
 
+  yPos += 8;
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
-  doc.text('Time:', 20, 76);
-
+  doc.text('Time:', 20, yPos);
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
-  doc.text('12:30 PM - 1:30 PM', 75, 76);
+  doc.text(studentData.examTime, 75, yPos);
 
-  // Add venue
+  yPos += 8;
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
-  doc.text('Venue:', 20, 84);
-
+  doc.text('Venue:', 20, yPos);
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
-  doc.text(studentData.venue, 75, 84);
+  doc.text(studentData.venue, 75, yPos);
 
   // Student information table
   doc.setFontSize(14);
   doc.setTextColor(0, 128, 128);
-  doc.text('STUDENT INFORMATION', 105, 100, { align: 'center' });
+  doc.text('STUDENT INFORMATION', 105, yPos + 20, { align: 'center' });
 
-  // Create table with student information
   autoTable(doc, {
-    startY: 105,
+    startY: yPos + 25,
     head: [['Field', 'Details']],
     body: [
       ['Name', studentData.name],
@@ -107,37 +108,29 @@ export const downloadAdmitCard = (studentData: StudentData) => {
       studentData.department ? ['Department', studentData.department || ''] : ['', ''],
       studentData.semester ? ['Semester', studentData.semester || ''] : ['', ''],
       studentData.phone ? ['Phone', studentData.phone || ''] : ['', ''],
-    ].filter(row => row[0] !== ''),
+    ].filter(row => row[0] !== ''), // Remove empty rows
     theme: 'striped',
-    headStyles: {
-      fillColor: [0, 128, 128],
-      textColor: 255,
-      fontStyle: 'bold'
-    },
-    columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: 40 },
-      1: { cellWidth: 'auto' }
-    },
+    headStyles: { fillColor: [0, 128, 128], textColor: 255, fontStyle: 'bold' },
+    columnStyles: { 0: { fontStyle: 'bold', cellWidth: 40 }, 1: { cellWidth: 'auto' } },
     margin: { left: 20, right: 20 }
   });
 
-  // Add instructions with more gap after the table
-  const currentY = (doc as any).lastAutoTable.finalY + 20; // Increased space
-
+  // Important Instructions
+  const currentY = (doc as any).lastAutoTable.finalY + 25;
   doc.setFontSize(14);
   doc.setTextColor(0, 128, 128);
   doc.text('IMPORTANT INSTRUCTIONS', 105, currentY, { align: 'center' });
 
   const instructions = [
-    '1. Arrive 30 minutes early with a valid student ID and admit card.',
-    '2. Bring necessary stationery; electronic devices are not allowed unless specified.',
-    '3. Follow seating arrangements, write correct details on the answer sheet, and submit it before leaving.',
-    '4. No talking, sharing materials, or malpractice; follow the invigilator’s instructions',
+    '1. Arrive 30 minutes early (11:30 AM) with a valid student ID and admit card.',
+    '2. Bring necessary stationery; electronic devices are not allowed.',
+    '3. Follow seating arrangements and write correct details.',
+    '4. No talking, sharing materials, or malpractice.',
     '5. Any misconduct will lead to disqualification.'
   ];
 
   doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal'); 
+  doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
 
   let y = currentY + 10;
@@ -146,16 +139,14 @@ export const downloadAdmitCard = (studentData: StudentData) => {
     y += 7;
   });
 
-y += 30;
-doc.setFontSize(10);
-doc.setTextColor(0, 0, 0);
-doc.text(' STUDENT SIGNATURE:', 20, y);
+  // Add Approved Stamp (moved slightly above bottom corner)
+  const approvedBadge = 'https://png.pngtree.com/png-clipart/20221010/original/pngtree-original-approved-stamp-and-badget-design-red-grunge-png-image_8669616.png';
+  doc.addImage(approvedBadge, 'PNG', 150, 230, 30, 30);
 
-  // Add footer
+  // Footer
   doc.setFontSize(8);
   doc.setTextColor(100, 100, 100);
   doc.text('ANARC – ROBOTICS CLUB, NIT AGARTALA | INNOVATE. BUILD. EXCEL. © ' + new Date().getFullYear(), 105, 285, { align: 'center' });
 
-  // Save the PDF
   doc.save(`${studentData.regNo}_admit_card.pdf`);
 };
