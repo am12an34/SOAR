@@ -185,7 +185,7 @@ const Dashboard = () => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-500">Registration ID:</span>
-                  <span className="font-medium">{`ANARC25${studentData.regNo.slice(0,2).toUpperCase()}${studentData.regNo.slice(-2)}`}</span>
+                  <span className="font-medium">{`ANARC25${studentData.regNo.slice(0, 2).toUpperCase()}${studentData.regNo.slice(2, 5).toUpperCase()}${studentData.regNo.slice(-2)}`}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Name:</span>
