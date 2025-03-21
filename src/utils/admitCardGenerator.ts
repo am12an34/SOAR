@@ -122,7 +122,7 @@ export const downloadAdmitCard = (studentData: StudentData) => {
   doc.text('IMPORTANT INSTRUCTIONS', 105, currentY, { align: 'center' });
 
   const instructions = [
-    '1. Arrive 30 minutes early (11:30 AM) with a valid student ID and admit card.',
+    '1. Arrive 30 minutes early (11:30 AM) with a valid student ID and admit card. A soft copy is mandatory, and a hard copy is recommended if possible.',
     '2. Bring necessary stationery; electronic devices are not allowed.',
     '3. Follow seating arrangements and write correct details.',
     '4. No talking, sharing materials, or malpractice.',
