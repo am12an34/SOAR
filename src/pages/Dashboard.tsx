@@ -79,7 +79,7 @@ const Dashboard = () => {
           examName: getExamName(parsedData.examType) || "No Exam",
           examDate: "March 22, 2025", // Ideally fetched from backend
           examTime: "12:00 PM - 1:00 PM", // Ideally fetched from backend
-          venue: "Mentioned in Admit Card", // Ideally fetched from backend
+          venue: "CIVIL DEPARTMENT , NITA", // Ideally fetched from backend
           hasAdmitCard: registration?.status === "Approved",
           registrationDate: registration?.registration_date || new Date().toISOString(),
           status: registration?.status || "Pending",
