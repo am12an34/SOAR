@@ -32,7 +32,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  useEffect(() => {
+   useEffect(() => {
     const fetchStudentData = async () => {
       const storedData = localStorage.getItem("sb-ywtgdbsxstcilwaedgme-auth-token");
   
@@ -55,35 +55,47 @@ const Dashboard = () => {
         const userMeta = parsedData.user.user_metadata;
         const userId = parsedData.user.id; // Extracting user ID
   
-        // Fetch student status from Supabase
-        const { data: registration, error } = await supabase
+        // ✅ Fetch student details from the "students" table
+        const { data: student, error } = await supabase
+          .from("students")
+          .select("name, roll_number, email, phone, department, semester")
+          .eq("id", userId)
+          .single(); // Fetching single record for the logged-in user
+  
+        if (error) {
+          throw new Error("Failed to fetch student data.");
+        }
+  
+        // ✅ Fetch student registration details from the "registrations" table (if still needed)
+        const { data: registration, error: regError } = await supabase
           .from("registrations")
           .select("status, registration_date")
           .eq("student_id", userId)
-          .single(); // Assuming one registration per student
+          .single();
   
-        if (error) {
-          throw new Error("Failed to fetch registration data.");
+        if (regError) {
+          console.warn("Failed to fetch registration data:", regError.message);
         }
   
-        // Map user metadata to student dashboard format
+        // ✅ Map fetched data to student dashboard format
         const mappedData: StudentData = {
-          name: userMeta.name || "Unknown",
-          regNo: userMeta.roll_number || "Not Assigned",
-          email: userMeta.email || "No Email",
-          phone: userMeta.phone || "No Phone",
-          department: userMeta.department || "No Department",
-          semester: userMeta.semester || "N/A",
-          rollNumber: userMeta.roll_number || "No Roll Number",
+          name: student?.name || "Unknown",
+          regNo: student?.roll_number || "Not Assigned",
+          email: student?.email || "No Email",
+          phone: student?.phone || "No Phone",
+          department: student?.department || "No Department",
+          semester: student?.semester || "N/A",
+          rollNumber: student?.roll_number || "No Roll Number",
           examType: parsedData.examType || "Unknown",
           examName: getExamName(parsedData.examType) || "No Exam",
-          examDate: "MARCH 22, 2025", // Ideally fetched from backend
+          examDate: "MARCH 22 2025", // Ideally fetched from backend
           examTime: "12:00 PM - 1:00 PM", // Ideally fetched from backend
           venue: "CIVIL DEPARTMENT , NITA", // Ideally fetched from backend
           hasAdmitCard: registration?.status === "Approved",
           registrationDate: registration?.registration_date || new Date().toISOString(),
           status: registration?.status || "Pending",
         };
+  
         setStudentData(mappedData);
       } catch (error) {
         console.error("Error parsing student data:", error);
@@ -99,7 +111,6 @@ const Dashboard = () => {
   
     fetchStudentData();
   }, [navigate, toast]);
-  
   
   const getExamName = (examType?: string): string => {
     if (!examType) return "SOAR 13.O EXAMINATION";
