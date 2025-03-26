@@ -46,6 +46,8 @@ const Profile = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const profileRef = useRef(null);
+
 
   useEffect(() => {
     // Check for query parameters to set the active tab
@@ -55,37 +57,47 @@ const Profile = () => {
       setActiveTab(tab);
     }
   }, [location]);
-
+ 
   useEffect(() => {
     const fetchProfile = async () => {
-      if (!user) return;
+      if (!user || profileRef.current) return; // Prevent redundant fetching
       
       setIsLoading(true);
       try {
         const { data, error } = await supabase
-          .from('students')
-          .select('*')
-          .eq('id', user.id)
+          .from("students")
+          .select("*")
+          .eq("id", user.id)
           .single();
-        
-        if (error) {
-          throw error;
-        }
-        
+  
+        if (error) throw error;
+  
+        profileRef.current = data; // Store profile to avoid unnecessary fetches
         setProfile(data as StudentProfile);
         setFormData(data as StudentProfile);
       } catch (error: any) {
-        console.error('Error fetching profile:', error);
-        toast.error('Failed to load profile data');
+        console.error("Error fetching profile:", error);
+        toast.error("Failed to load profile data");
       } finally {
         setIsLoading(false);
       }
     };
-
-    if (user) {
-      fetchProfile();
-    }
+  
+    // Use document.visibilityState to avoid reloading on tab switch
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && !profileRef.current) {
+        fetchProfile();
+      }
+    };
+  
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    fetchProfile();
+  
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [user]);
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
