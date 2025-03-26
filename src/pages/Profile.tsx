@@ -125,7 +125,6 @@ const Profile = () => {
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     const files = e.target.files;
     if (!files || files.length === 0 || !user) {
       return;
