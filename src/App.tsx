@@ -35,7 +35,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/exams" element={<Exams />} />
               <Route path="/success" element={<AccessControl redirectLoggedInUsers><Success /></AccessControl>} />
-              <Route path="/reset-password" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
               {/* Public routes that redirect logged-in users */}
               <Route path="/login" element={
